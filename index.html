@@ -1,0 +1,1487 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100d13">
+<title>Jaolove Studio16 — Receipt Maker</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --bg:#100d13;
+ --bg2:#19141d;
+ --card:#201a25;
+ --card2:#29212e;
+ --text:#f4edf5;
+ --muted:#a99aaa;
+ --pink:#d99abf;
+ --pink2:#a96d91;
+ --line:#483749;
+ --silver:#c9bdcf;
+ --danger:#d77d91;
+ --shadow:0 15px 45px rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:
+ radial-gradient(ellipse at 10% 0%,rgba(154,91,133,.15),transparent 35%),
+ radial-gradient(ellipse at 90% 40%,rgba(105,76,124,.13),transparent 35%),
+ var(--bg);
+ color:var(--text);
+ font-family:'Prompt',sans-serif;
+ font-size:14px;
+ min-height:100vh;
+}
+
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+
+button:focus-visible,input:focus-visible,
+textarea:focus-visible,select:focus-visible{
+ outline:2px solid var(--pink);
+ outline-offset:2px;
+}
+
+.container{
+ width:min(1100px,94%);
+ margin:auto;
+ padding:25px 0 80px;
+}
+
+.topbar{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:20px;
+ gap:12px;
+}
+
+.brand-small{
+ font-family:'Cormorant Garamond',serif;
+ color:var(--silver);
+ letter-spacing:2px;
+ font-size:17px;
+}
+
+.status{
+ color:#d8b2ca;
+ font-size:11px;
+ border:1px solid var(--line);
+ border-radius:30px;
+ padding:6px 12px;
+}
+
+.profile{
+ position:relative;
+ overflow:hidden;
+ border:1px solid var(--line);
+ background:linear-gradient(135deg,#29202e,#17121b 75%);
+ border-radius:22px;
+ padding:30px 20px;
+ text-align:center;
+ box-shadow:var(--shadow);
+}
+
+.profile:before{
+ content:"✦";
+ position:absolute;
+ left:22px;
+ top:15px;
+ color:var(--pink);
+ font-size:25px;
+ opacity:.7;
+}
+
+.profile:after{
+ content:"✧";
+ position:absolute;
+ right:22px;
+ bottom:15px;
+ color:var(--pink);
+ font-size:30px;
+ opacity:.7;
+}
+
+.avatar{
+ width:92px;
+ height:92px;
+ border-radius:50%;
+ border:2px solid var(--pink);
+ background:#342638;
+ margin:0 auto 12px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ overflow:hidden;
+ color:var(--pink);
+ font-size:30px;
+}
+
+.avatar img{width:100%;height:100%;object-fit:cover}
+
+.shop-name{
+ font-family:'Cormorant Garamond',serif;
+ font-size:35px;
+ font-weight:700;
+ letter-spacing:1px;
+ color:#f0c4dc;
+ margin:0;
+}
+
+.shop-sub{
+ color:var(--muted);
+ margin-top:6px;
+ font-size:12px;
+ white-space:pre-wrap;
+}
+
+.profile-actions{
+ margin-top:15px;
+}
+
+.profile-edit{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ gap:8px;
+}
+
+.section{
+ margin-top:22px;
+ background:rgba(32,26,37,.94);
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:20px;
+ box-shadow:var(--shadow);
+}
+
+.section-title{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ margin-bottom:18px;
+}
+
+.section-title h2{
+ margin:0;
+ font-size:16px;
+ font-weight:500;
+ color:#f0c5dc;
+}
+
+.section-title small{color:var(--muted)}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:14px;
+}
+
+.field{
+ display:flex;
+ flex-direction:column;
+ gap:7px;
+ min-width:0;
+}
+
+.field.full{grid-column:1/-1}
+
+label{
+ color:#d9cbdc;
+ font-size:12px;
+}
+
+input,textarea,select{
+ width:100%;
+ color:var(--text);
+ background:#17121c;
+ border:1px solid var(--line);
+ border-radius:10px;
+ padding:11px 12px;
+ outline:none;
+}
+
+input:focus,textarea:focus,select:focus{
+ border-color:var(--pink);
+}
+
+input::placeholder,textarea::placeholder{color:#756978}
+
+textarea{resize:vertical;min-height:75px}
+
+select option{background:#201a25}
+
+.btn{
+ border:1px solid var(--line);
+ border-radius:10px;
+ padding:10px 14px;
+ color:var(--text);
+ background:#302536;
+ transition:.2s;
+}
+
+.btn:hover{filter:brightness(1.2)}
+
+.btn-primary{
+ background:linear-gradient(135deg,#d99abf,#a96d91);
+ color:#211421;
+ border:0;
+ font-weight:600;
+}
+
+.btn-danger{
+ background:#42232e;
+ border-color:#784153;
+ color:#f0b4c3;
+}
+
+.btn-soft{
+ background:#2a222e;
+ color:#e8c7dc;
+}
+
+.btn-small{padding:7px 10px;font-size:11px}
+
+.btn-block{width:100%}
+
+.divider{
+ border:0;
+ border-top:1px solid var(--line);
+ margin:20px 0;
+}
+</style>
+</head>
+  
+<style>
+.item-head,.item-row{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 90px 75px 100px 38px;
+ gap:8px;
+ align-items:center;
+}
+
+.item-head{
+ padding:0 8px 10px;
+ color:var(--muted);
+ font-size:11px;
+}
+
+.item-row{
+ background:#19141e;
+ padding:9px;
+ border:1px solid #382d3d;
+ border-radius:12px;
+ margin-bottom:8px;
+}
+
+.item-row input{
+ padding:9px 7px;
+ min-width:0;
+ text-align:center;
+}
+
+.item-row input:first-child{text-align:left}
+
+.item-total{
+ text-align:right;
+ color:#f0c4dc;
+ font-weight:500;
+ font-size:12px;
+ overflow-wrap:anywhere;
+}
+
+.remove-btn{
+ background:#3b202b;
+ border:0;
+ color:#e9a2b7;
+ width:32px;
+ height:32px;
+ border-radius:8px;
+}
+
+.summary{
+ background:linear-gradient(135deg,#2e2331,#211923);
+ border:1px solid var(--line);
+ border-radius:15px;
+ padding:16px;
+ margin-top:15px;
+}
+
+.sum-line{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ padding:7px 0;
+ color:#c9bdcf;
+}
+
+.sum-line strong{color:#f4eaf3}
+
+.sum-total{
+ border-top:1px dashed #71566d;
+ margin-top:8px;
+ padding-top:15px;
+ font-size:19px;
+ color:#f2c4df;
+}
+
+.sum-total strong{color:#f2c4df;font-size:22px}
+
+.summary input{
+ width:110px;
+ text-align:right;
+ padding:7px;
+}
+
+.summary select{
+ width:110px;
+ padding:7px;
+}
+
+.action-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+ margin-top:15px;
+}
+
+.history-search{
+ display:flex;
+ gap:8px;
+ margin-bottom:14px;
+}
+
+.history-card{
+ background:#19141e;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:13px;
+ margin-bottom:9px;
+ display:flex;
+ justify-content:space-between;
+ gap:12px;
+ align-items:center;
+}
+
+.history-info{min-width:0}
+.history-info strong{color:#edc3db}
+.history-info small{
+ display:block;
+ color:var(--muted);
+ margin-top:4px;
+}
+
+.history-amount{
+ color:#f0c0dc;
+ font-size:16px;
+ font-weight:600;
+ text-align:right;
+ white-space:nowrap;
+}
+
+.history-buttons{
+ display:flex;
+ gap:5px;
+ margin-top:8px;
+ justify-content:flex-end;
+}
+
+.empty{
+ text-align:center;
+ color:var(--muted);
+ padding:30px 10px;
+}
+
+.note{
+ color:var(--muted);
+ font-size:11px;
+ line-height:1.8;
+}
+
+.modal{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:100;
+ background:rgba(0,0,0,.75);
+ backdrop-filter:blur(7px);
+ align-items:center;
+ justify-content:center;
+ padding:15px;
+}
+
+.modal.show{display:flex}
+
+.modal-content{
+ background:#201a25;
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:20px;
+ width:min(440px,100%);
+ max-height:90vh;
+ overflow-y:auto;
+}
+
+.modal-content h3{
+ color:#efc2dc;
+ margin-top:0;
+}
+
+.modal-buttons{
+ display:flex;
+ gap:8px;
+ margin-top:15px;
+}
+
+.modal-buttons button{flex:1}
+
+.toast{
+ position:fixed;
+ bottom:25px;
+ left:50%;
+ transform:translate(-50%,20px);
+ background:#d99abf;
+ color:#211421;
+ border-radius:30px;
+ padding:10px 20px;
+ opacity:0;
+ pointer-events:none;
+ transition:.25s;
+ z-index:200;
+ font-size:12px;
+}
+
+.toast.show{
+ opacity:1;
+ transform:translate(-50%,0);
+}
+
+.footer{
+ text-align:center;
+ color:#827487;
+ font-size:11px;
+ padding:25px 0 5px;
+ letter-spacing:1px;
+}
+
+@media(max-width:600px){
+ .container{width:94%;padding-top:14px}
+ .profile{padding:25px 12px}
+ .shop-name{font-size:29px}
+ .section{padding:14px}
+ .grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ .item-head,.item-row{
+  grid-template-columns:minmax(0,1fr) 55px 52px 70px 30px;
+  gap:4px;
+ }
+ .item-head{font-size:9px}
+ .item-row{padding:6px}
+ .item-row input{font-size:11px;padding:8px 3px}
+ .remove-btn{width:27px;height:29px}
+ .item-total{font-size:10px}
+ .action-grid{grid-template-columns:1fr 1fr}
+ .history-card{align-items:flex-start}
+}
+
+@media print{
+ @page{margin:0;size:auto}
+ body{background:white!important;color:#111!important}
+ body *{visibility:hidden!important}
+ #printArea,#printArea *{visibility:visible!important}
+ #printArea{
+  display:block!important;
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  color:#17121a;
+  background:white;
+  padding:25px;
+  font-family:'Prompt',sans-serif;
+ }
+ #printArea.receipt-a4{
+  width:210mm;
+  min-height:297mm;
+  padding:18mm;
+ }
+ #printArea.receipt-small{
+  width:80mm;
+  padding:6mm;
+ }
+ .print-header{text-align:center;margin-bottom:20px}
+ .print-logo{
+  width:70px;height:70px;
+  border-radius:50%;
+  object-fit:cover;
+  margin-bottom:8px;
+ }
+ .print-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;
+  margin:0;
+ }
+ .print-sub{font-size:11px;white-space:pre-wrap}
+ .print-title{
+  text-align:center;
+  letter-spacing:3px;
+  margin:20px 0;
+  border-top:1px solid #aaa;
+  border-bottom:1px solid #aaa;
+  padding:10px;
+ }
+ .print-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:11px;
+  margin-bottom:12px;
+ }
+ .print-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:11px;
+ }
+ .print-table th,.print-table td{
+  border-bottom:1px solid #ddd;
+  padding:8px 4px;
+  text-align:left;
+ }
+ .print-table th:last-child,.print-table td:last-child{text-align:right}
+ .print-table th:nth-child(2),.print-table td:nth-child(2),
+ .print-table th:nth-child(3),.print-table td:nth-child(3){text-align:center}
+ .print-sums{
+  margin-top:15px;
+  border-top:1px dashed #aaa;
+  padding-top:10px;
+ }
+ .print-sum{
+  display:flex;
+  justify-content:space-between;
+  padding:4px 0;
+  font-size:11px;
+  gap:8px;
+ }
+ .print-grand{
+  border-top:1px solid #777;
+  margin-top:8px;
+  padding-top:10px;
+  font-size:17px;
+  font-weight:bold;
+ }
+ .print-note{
+  margin-top:20px;
+  padding-top:12px;
+  border-top:1px dashed #aaa;
+  font-size:10px;
+  white-space:pre-wrap;
+ }
+ .print-footer{
+  text-align:center;
+  margin-top:30px;
+  font-size:11px;
+ }
+ #printArea.receipt-small .print-name{font-size:20px}
+ #printArea.receipt-small .print-logo{width:50px;height:50px}
+ #printArea.receipt-small .print-meta{display:block}
+ #printArea.receipt-small .print-meta span{display:block;margin:4px 0}
+ #printArea.receipt-small .print-table{font-size:9px}
+ #printArea.receipt-small .print-table th,
+ #printArea.receipt-small .print-table td{padding:6px 2px}
+ #printArea.receipt-small .print-grand{font-size:14px}
+ #printArea.receipt-small .print-title{letter-spacing:2px}
+}
+</style>
+
+<body>
+<div class="container">
+
+ <div class="topbar">
+  <div class="brand-small">✦ JAOLOVE STUDIO16 ✦</div>
+  <div class="status">● LOCAL STORAGE</div>
+ </div>
+
+ <header class="profile">
+  <div class="avatar" id="avatarBox">♡</div>
+  <h1 class="shop-name" id="shopNameDisplay">Jaolove Studio16</h1>
+  <div class="shop-sub" id="shopDescDisplay">RECEIPT & PAYMENT STUDIO ♡</div>
+  <div class="profile-actions profile-edit">
+   <button class="btn btn-small btn-soft" onclick="openProfile()">แก้ไขโปรไฟล์ร้าน</button>
+  </div>
+ </header>
+
+ <section class="section">
+  <div class="section-title">
+   <h2>✦ Receipt Information</h2>
+   <small>ข้อมูลใบเสร็จ</small>
+  </div>
+
+  <div class="grid">
+   <div class="field">
+    <label>เลขที่ใบเสร็จ</label>
+    <input id="receiptNumber" readonly>
+   </div>
+   <div class="field">
+    <label>วันที่ออกใบเสร็จ</label>
+    <input type="date" id="receiptDate">
+   </div>
+   <div class="field full">
+    <label>ชื่อลูกค้า</label>
+    <input id="customerName" placeholder="กรอกชื่อลูกค้า">
+   </div>
+   <div class="field full">
+    <label>ช่องทางการชำระเงิน</label>
+    <select id="paymentMethod">
+     <option value="โอนเงิน">โอนเงิน</option>
+     <option value="พร้อมเพย์">พร้อมเพย์</option>
+     <option value="เงินสด">เงินสด</option>
+     <option value="อื่น ๆ">อื่น ๆ</option>
+    </select>
+   </div>
+  </div>
+ </section>
+
+ <section class="section">
+  <div class="section-title">
+   <h2>✦ Product List</h2>
+   <small>รายการสินค้า</small>
+  </div>
+
+  <div class="item-head">
+   <span>สินค้า / รายละเอียด</span>
+   <span style="text-align:center">ราคา</span>
+   <span style="text-align:center">จำนวน</span>
+   <span style="text-align:right">รวม</span>
+   <span></span>
+  </div>
+
+  <div id="itemsContainer"></div>
+  <button class="btn btn-soft btn-block" onclick="addItem()">＋ เพิ่มรายการสินค้า</button>
+
+  <div class="summary">
+   <div class="sum-line">
+    <span>จำนวนรายการสินค้า</span>
+    <strong id="itemCount">0 รายการ</strong>
+   </div>
+   <div class="sum-line">
+    <span>ยอดรวมสินค้า</span>
+    <strong id="subtotal">฿0.00</strong>
+   </div>
+   <div class="sum-line">
+    <span>ส่วนลด</span>
+    <div style="display:flex;gap:5px">
+     <select id="discountType" onchange="calculate()">
+      <option value="amount">฿</option>
+      <option value="percent">%</option>
+     </select>
+     <input type="number" id="discountValue" value="0" min="0" oninput="calculate()">
+    </div>
+   </div>
+   <div class="sum-line sum-total">
+    <span>ยอดสุทธิ</span>
+    <strong id="grandTotal">฿0.00</strong>
+   </div>
+  </div>
+
+  <div class="field" style="margin-top:15px">
+   <label>หมายเหตุเพิ่มเติม</label>
+   <textarea id="receiptNote" placeholder="ขอบคุณที่อุดหนุน Jaolove Studio16 ♡"></textarea>
+  </div>
+
+  <div class="action-grid">
+   <button class="btn btn-primary" onclick="saveReceipt()">♡ บันทึกใบเสร็จ</button>
+   <button class="btn btn-soft" onclick="previewReceipt()">ดูตัวอย่าง / พิมพ์</button>
+   <button class="btn btn-soft" onclick="newReceipt()">＋ สร้างใบเสร็จใหม่</button>
+   <button class="btn btn-danger" onclick="clearForm()">ล้างข้อมูลฟอร์ม</button>
+  </div>
+ </section>
+</div>
+                                         </body>
+                                         
+<!-- HISTORY -->
+<div class="container" style="padding-top:0">
+
+ <section class="section">
+  <div class="section-title">
+   <h2>✦ Receipt History</h2>
+   <small id="historyCount">0 ใบเสร็จ</small>
+  </div>
+
+  <div class="history-search">
+   <input id="searchHistory"
+    placeholder="ค้นหาเลขที่ใบเสร็จ / ชื่อลูกค้า..."
+    oninput="renderHistory()">
+  </div>
+
+  <div id="historyContainer"></div>
+ </section>
+
+ <div class="footer">
+  ♡ THANK YOU FOR SUPPORTING JAOLOVE STUDIO16 ♡
+ </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="modal" id="profileModal">
+ <div class="modal-content">
+  <h3>✦ แก้ไขโปรไฟล์ร้าน</h3>
+
+  <div class="field">
+   <label>ชื่อร้าน</label>
+   <input id="editShopName" value="Jaolove Studio16">
+  </div>
+
+  <div class="field" style="margin-top:12px">
+   <label>คำอธิบายร้าน</label>
+   <textarea id="editShopDesc"></textarea>
+  </div>
+
+  <div class="field" style="margin-top:12px">
+   <label>รูปโปรไฟล์ร้าน</label>
+   <input type="file" id="profileImage" accept="image/*">
+  </div>
+
+  <div class="modal-buttons">
+   <button class="btn btn-primary" onclick="saveProfile()">บันทึก</button>
+   <button class="btn btn-soft" onclick="closeModal('profileModal')">ยกเลิก</button>
+  </div>
+ </div>
+</div>
+
+<!-- PRINT FORMAT MODAL -->
+<div class="modal" id="printModal">
+ <div class="modal-content">
+  <h3>✦ เลือกรูปแบบใบเสร็จ</h3>
+
+  <div class="field">
+   <label>รูปแบบการพิมพ์</label>
+   <select id="printFormat">
+    <option value="a4">A4 — เอกสารเต็มหน้า</option>
+    <option value="small">Receipt — ใบเสร็จขนาดเล็ก 80mm</option>
+   </select>
+  </div>
+
+  <p class="note">
+   สามารถเลือกบันทึกเป็น PDF ได้จากหน้าต่างพิมพ์ของเบราว์เซอร์
+  </p>
+
+  <div class="modal-buttons">
+   <button class="btn btn-primary" onclick="doPrint()">ดำเนินการ</button>
+   <button class="btn btn-soft" onclick="closeModal('printModal')">ยกเลิก</button>
+  </div>
+ </div>
+</div>
+
+<!-- PRINT AREA -->
+<div id="printArea"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =================================
+   JAOLOVE STUDIO16 RECEIPT MAKER
+   STORAGE: LOCAL STORAGE
+================================= */
+
+const STORAGE_KEY = "jaolove_receipt_v1";
+const PROFILE_KEY = "jaolove_profile_v1";
+
+let items = [];
+let receipts = [];
+
+let profile = {
+ name:"Jaolove Studio16",
+ desc:"RECEIPT & PAYMENT STUDIO ♡",
+ image:""
+};
+
+let editingId = null;
+let nextNumber = 1;
+let printTarget = null;
+
+/* UTILITIES */
+
+const $ = id => document.getElementById(id);
+
+function money(value){
+ return new Intl.NumberFormat("th-TH",{
+  style:"currency",
+  currency:"THB"
+ }).format(Number(value)||0);
+}
+
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,char=>({
+  "&":"&amp;",
+  "<":"&lt;",
+  ">":"&gt;",
+  '"':"&quot;",
+  "'":"&#039;"
+ }[char]));
+}
+
+function today(){
+ const d=new Date();
+ const offset=d.getTimezoneOffset();
+ return new Date(d.getTime()-offset*60000)
+  .toISOString().slice(0,10);
+}
+
+function makeId(){
+ return "R"+Date.now()+"-"+
+  Math.random().toString(36).slice(2,7);
+}
+
+function showToast(message){
+ const el=$("toast");
+ el.textContent=message;
+ el.classList.add("show");
+ setTimeout(()=>el.classList.remove("show"),2200);
+}
+
+function loadData(){
+ try{
+  receipts=JSON.parse(
+   localStorage.getItem(STORAGE_KEY)||"[]"
+  );
+
+  profile={
+   ...profile,
+   ...JSON.parse(
+    localStorage.getItem(PROFILE_KEY)||"{}"
+   )
+  };
+ }catch(e){
+  receipts=[];
+ }
+}
+
+function saveData(){
+ try{
+  localStorage.setItem(
+   STORAGE_KEY,JSON.stringify(receipts)
+  );
+
+  localStorage.setItem(
+   PROFILE_KEY,JSON.stringify(profile)
+  );
+
+  return true;
+
+ }catch(e){
+  showToast("พื้นที่จัดเก็บเต็ม กรุณาลดขนาดรูปภาพ");
+  return false;
+ }
+}
+
+/* PROFILE */
+
+function renderProfile(){
+ $("shopNameDisplay").textContent=profile.name;
+ $("shopDescDisplay").textContent=profile.desc;
+
+ $("avatarBox").innerHTML=profile.image
+  ? `<img src="${profile.image}" alt="Shop profile">`
+  : "♡";
+}
+
+function openProfile(){
+ $("editShopName").value=profile.name;
+ $("editShopDesc").value=profile.desc;
+ $("profileImage").value="";
+ $("profileModal").classList.add("show");
+}
+
+function closeModal(id){
+ $(id).classList.remove("show");
+}
+
+function resizeImage(file){
+ return new Promise((resolve,reject)=>{
+  const reader=new FileReader();
+
+  reader.onload=()=>{
+   const img=new Image();
+
+   img.onload=()=>{
+    const canvas=document.createElement("canvas");
+    const max=500;
+
+    let w=img.width;
+    let h=img.height;
+
+    if(w>h&&w>max){
+     h*=max/w;
+     w=max;
+    }else if(h>max){
+     w*=max/h;
+     h=max;
+    }
+
+    canvas.width=w;
+    canvas.height=h;
+
+    canvas.getContext("2d").drawImage(
+     img,0,0,w,h
+    );
+
+    resolve(
+     canvas.toDataURL("image/jpeg",.78)
+    );
+   };
+
+   img.onerror=reject;
+   img.src=reader.result;
+  };
+
+  reader.onerror=reject;
+  reader.readAsDataURL(file);
+ });
+}
+
+async function saveProfile(){
+ const file=$("profileImage").files[0];
+
+ profile.name=
+  $("editShopName").value.trim()||
+  "Jaolove Studio16";
+
+ profile.desc=$("editShopDesc").value;
+
+ if(file){
+  try{
+   profile.image=await resizeImage(file);
+  }catch(e){
+   showToast("ไม่สามารถอ่านรูปภาพได้");
+   return;
+  }
+ }
+
+ if(!saveData())return;
+
+ renderProfile();
+ closeModal("profileModal");
+ showToast("บันทึกโปรไฟล์ร้านแล้ว ♡");
+}
+
+/* RECEIPT NUMBER */
+
+function getNextNumber(){
+ const highest=receipts.reduce((max,r)=>{
+  const match=String(r.number||"").match(/(\d+)$/);
+
+  return Math.max(
+   max,
+   match?Number(match[1]):0
+  );
+ },0);
+
+ nextNumber=highest+1;
+
+ return "JL-"+String(nextNumber).padStart(5,"0");
+}
+
+function resetForm(){
+ editingId=null;
+
+ $("receiptNumber").value=getNextNumber();
+ $("receiptDate").value=today();
+ $("customerName").value="";
+ $("paymentMethod").value="โอนเงิน";
+ $("discountType").value="amount";
+ $("discountValue").value=0;
+ $("receiptNote").value="";
+
+ items=[];
+ addItem();
+}
+
+/* ITEMS */
+
+function addItem(data={}){
+ items.push({
+  id:makeId(),
+  name:data.name||"",
+  price:Number(data.price)||0,
+  qty:Number(data.qty)||1
+ });
+
+ renderItems();
+}
+
+function removeItem(id){
+ if(items.length<=1){
+  showToast("ต้องมีสินค้าอย่างน้อย 1 รายการ");
+  return;
+ }
+
+ items=items.filter(item=>item.id!==id);
+ renderItems();
+}
+
+function updateItem(id,key,value){
+ const item=items.find(x=>x.id===id);
+ if(!item)return;
+
+ if(key==="name"){
+  item.name=value;
+ }else{
+  item[key]=Math.max(0,Number(value)||0);
+
+  if(key==="qty"&&item[key]<1){
+   item[key]=1;
+  }
+ }
+
+ calculate();
+}
+
+function renderItems(){
+ $("itemsContainer").innerHTML=items.map(item=>`
+  <div class="item-row">
+
+   <input type="text"
+    placeholder="ชื่อสินค้า"
+    value="${escapeHTML(item.name)}"
+    oninput="updateItem('${item.id}','name',this.value)">
+
+   <input type="number"
+    min="0" step="0.01"
+    value="${item.price}"
+    oninput="updateItem('${item.id}','price',this.value)">
+
+   <input type="number"
+    min="1" step="1"
+    value="${item.qty}"
+    oninput="updateItem('${item.id}','qty',this.value)">
+
+   <div class="item-total" id="total-${item.id}">
+    ${money(item.price*item.qty)}
+   </div>
+
+   <button class="remove-btn"
+    onclick="removeItem('${item.id}')">×</button>
+
+  </div>
+ `).join("");
+
+ calculate();
+}
+
+/* SUMMARY */
+
+function getTotals(){
+ const subtotal=items.reduce((sum,item)=>{
+  return sum+
+   (Math.max(0,item.price)*
+    Math.max(1,item.qty));
+ },0);
+
+ const type=$("discountType").value;
+ const value=Math.max(
+  0,Number($("discountValue").value)||0
+ );
+
+ let discount=type==="percent"
+  ? subtotal*Math.min(value,100)/100
+  : Math.min(value,subtotal);
+
+ return {
+  subtotal,
+  discount,
+  total:Math.max(0,subtotal-discount),
+  count:items.reduce(
+   (sum,item)=>sum+item.qty,0
+  )
+ };
+}
+
+function calculate(){
+ items.forEach(item=>{
+  const el=$("total-"+item.id);
+
+  if(el){
+   el.textContent=money(
+    item.price*item.qty
+   );
+  }
+ });
+
+ const t=getTotals();
+
+ $("itemCount").textContent=t.count+" ชิ้น";
+ $("subtotal").textContent=money(t.subtotal);
+ $("grandTotal").textContent=money(t.total);
+}
+ 
+/* RECEIPTS */
+
+function collectReceipt(){
+ const t=getTotals();
+
+ return {
+  id:editingId||makeId(),
+  number:$("receiptNumber").value,
+  date:$("receiptDate").value,
+  customer:$("customerName").value.trim(),
+  payment:$("paymentMethod").value,
+  items:items.map(x=>({...x})),
+  discountType:$("discountType").value,
+  discountValue:Number($("discountValue").value)||0,
+  subtotal:t.subtotal,
+  discount:t.discount,
+  total:t.total,
+  count:t.count,
+  note:$("receiptNote").value,
+  updatedAt:new Date().toISOString()
+ };
+}
+
+function validateReceipt(){
+ if(!items.length){
+  showToast("กรุณาเพิ่มสินค้า");
+  return false;
+ }
+
+ if(!items.some(x=>x.name.trim())){
+  showToast("กรุณากรอกชื่อสินค้าอย่างน้อย 1 รายการ");
+  return false;
+ }
+
+ if(!items.every(x=>
+  Number.isFinite(x.price)&&x.price>=0&&
+  Number.isFinite(x.qty)&&x.qty>=1
+ )){
+  showToast("กรุณาตรวจสอบราคาและจำนวนสินค้า");
+  return false;
+ }
+
+ if(!$("receiptDate").value){
+  showToast("กรุณาเลือกวันที่");
+  return false;
+ }
+
+ return true;
+}
+
+function saveReceipt(){
+ if(!validateReceipt())return;
+
+ const receipt=collectReceipt();
+
+ const index=receipts.findIndex(
+  x=>x.id===receipt.id
+ );
+
+ if(index>=0){
+  receipts[index]=receipt;
+ }else{
+  receipts.unshift(receipt);
+ }
+
+ if(!saveData())return;
+
+ editingId=null;
+ renderHistory();
+
+ showToast("บันทึกใบเสร็จเรียบร้อยแล้ว ♡");
+ resetForm();
+}
+
+function loadReceipt(id){
+ const r=receipts.find(x=>x.id===id);
+ if(!r)return;
+
+ editingId=r.id;
+
+ $("receiptNumber").value=r.number;
+ $("receiptDate").value=r.date;
+ $("customerName").value=r.customer;
+ $("paymentMethod").value=r.payment;
+ $("discountType").value=r.discountType||"amount";
+ $("discountValue").value=r.discountValue||0;
+ $("receiptNote").value=r.note||"";
+
+ items=(r.items||[]).map(x=>({
+  ...x,
+  id:makeId()
+ }));
+
+ if(!items.length)addItem();
+
+ renderItems();
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+
+ showToast("โหลดใบเสร็จสำหรับแก้ไขแล้ว");
+}
+
+function deleteReceipt(id){
+ const r=receipts.find(x=>x.id===id);
+ if(!r)return;
+
+ if(!confirm(
+  "ต้องการลบใบเสร็จ "+r.number+" ใช่หรือไม่?"
+ ))return;
+
+ receipts=receipts.filter(x=>x.id!==id);
+
+ if(!saveData())return;
+
+ renderHistory();
+ showToast("ลบใบเสร็จแล้ว");
+}
+
+function renderHistory(){
+ const q=$("searchHistory").value
+  .toLowerCase().trim();
+
+ const filtered=receipts.filter(r=>
+  String(r.number).toLowerCase().includes(q)||
+  String(r.customer).toLowerCase().includes(q)
+ );
+
+ $("historyCount").textContent=
+  receipts.length+" ใบเสร็จ";
+
+ if(!filtered.length){
+  $("historyContainer").innerHTML=
+   `<div class="empty">♡ ยังไม่มีประวัติใบเสร็จ ♡</div>`;
+  return;
+ }
+
+ $("historyContainer").innerHTML=
+ filtered.map(r=>`
+  <div class="history-card">
+
+   <div class="history-info">
+    <strong>${escapeHTML(r.number)}</strong>
+
+    <small>
+     ${escapeHTML(r.customer||"ลูกค้าทั่วไป")}
+    </small>
+
+    <small>
+     ${escapeHTML(r.date)} · ${r.count||0} ชิ้น
+    </small>
+
+    <div class="history-buttons">
+
+     <button class="btn btn-small btn-soft"
+      onclick="loadReceipt('${r.id}')">
+      แก้ไข
+     </button>
+
+     <button class="btn btn-small btn-soft"
+      onclick="printSaved('${r.id}')">
+      พิมพ์
+     </button>
+
+     <button class="btn btn-small btn-danger"
+      onclick="deleteReceipt('${r.id}')">
+      ลบ
+     </button>
+
+    </div>
+   </div>
+
+   <div class="history-amount">
+    ${money(r.total)}
+   </div>
+
+  </div>
+ `).join("");
+}
+
+/* NEW RECEIPT */
+
+function newReceipt(){
+ if(!confirm(
+  "สร้างใบเสร็จใหม่? ข้อมูลที่ยังไม่ได้บันทึกจะหายไป"
+ ))return;
+
+ resetForm();
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+
+ showToast("เริ่มใบเสร็จใหม่แล้ว");
+}
+
+function clearForm(){
+ if(!confirm(
+  "ต้องการล้างข้อมูลในฟอร์มทั้งหมดหรือไม่?"
+ ))return;
+
+ resetForm();
+ showToast("ล้างข้อมูลฟอร์มแล้ว");
+}
+
+/* PRINT RECEIPT */
+
+function buildPrintHTML(r,format){
+ const small=format==="small";
+
+ const itemRows=r.items.map(item=>`
+  <tr>
+   <td>${escapeHTML(item.name)}</td>
+   <td>${item.qty}</td>
+   <td>${money(item.price)}</td>
+   <td>${money(item.price*item.qty)}</td>
+  </tr>
+ `).join("");
+
+ const discountText=r.discountType==="percent"
+  ? `${r.discountValue}%`
+  : money(r.discountValue);
+
+ const logo=profile.image
+  ? `<img class="print-logo" src="${profile.image}">`
+  : "";
+
+ return `
+ <div class="${small?"receipt-small":"receipt-a4"}">
+
+  <div class="print-header">
+   ${logo}
+
+   <h1 class="print-name">
+    ${escapeHTML(profile.name)}
+   </h1>
+
+   <div class="print-sub">
+    ${escapeHTML(profile.desc)}
+   </div>
+  </div>
+
+  <div class="print-title">RECEIPT</div>
+
+  <div class="print-meta">
+   <span>เลขที่: ${escapeHTML(r.number)}</span>
+   <span>วันที่: ${escapeHTML(r.date)}</span>
+  </div>
+
+  <div class="print-meta">
+   <span>
+    ลูกค้า: ${escapeHTML(r.customer||"ลูกค้าทั่วไป")}
+   </span>
+   <span>
+    ชำระโดย: ${escapeHTML(r.payment)}
+   </span>
+  </div>
+
+  <table class="print-table">
+
+   <thead>
+    <tr>
+     <th>รายการ</th>
+     <th>จำนวน</th>
+     <th>ราคา</th>
+     <th>รวม</th>
+    </tr>
+   </thead>
+
+   <tbody>
+    ${itemRows}
+   </tbody>
+
+  </table>
+
+  <div class="print-sums">
+
+   <div class="print-sum">
+    <span>ยอดรวม</span>
+    <span>${money(r.subtotal)}</span>
+   </div>
+
+   <div class="print-sum">
+    <span>ส่วนลด (${discountText})</span>
+    <span>-${money(r.discount)}</span>
+   </div>
+
+   <div class="print-sum print-grand">
+    <span>ยอดสุทธิ</span>
+    <span>${money(r.total)}</span>
+   </div>
+
+  </div>
+
+  ${r.note?`
+   <div class="print-note">
+    หมายเหตุ: ${escapeHTML(r.note)}
+   </div>
+  `:""}
+
+  <div class="print-footer">
+   ♡ Thank you for your support ♡
+   <br>
+   ${escapeHTML(profile.name)}
+  </div>
+
+ </div>
+ `;
+}
+
+function previewReceipt(){
+ if(!validateReceipt())return;
+
+ closeModal("printModal");
+ $("printModal").classList.add("show");
+}
+
+function printSaved(id){
+ const r=receipts.find(x=>x.id===id);
+ if(!r)return;
+
+ printTarget=r;
+ $("printModal").classList.add("show");
+}
+
+function doPrint(){
+ const format=$("printFormat").value;
+
+ const receipt=printTarget||collectReceipt();
+
+ $("printArea").className=
+  format==="small"
+   ?"receipt-small"
+   :"receipt-a4";
+
+ $("printArea").innerHTML=
+  buildPrintHTML(receipt,format);
+
+ closeModal("printModal");
+
+ setTimeout(()=>{
+  window.print();
+  printTarget=null;
+ },250);
+}
+
+/* INITIALIZE WEBSITE */
+
+loadData();
+
+renderProfile();
+renderHistory();
+resetForm();
+
+</script>
+
+</body>
+</html>
+
